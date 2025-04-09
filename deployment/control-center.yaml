@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-center
+  namespace: spring-training
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: control-center
+  template:
+    metadata:
+      labels:
+        app: control-center
+    spec:
+      containers:
+        - name: control-center
+          image: confluentinc/cp-enterprise-control-center:latest
+          ports:
+            - containerPort: 9021
+          envFrom:
+            - configMapRef:
+                name: control-center-config
+  restartPolicy: Always

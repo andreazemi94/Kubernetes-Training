@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: schema-registry-config
+  namespace: spring-training
+data:
+  SCHEMA_REGISTRY_HOST_NAME: schema-registry-service
+  SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-service.spring-training:9092
+  SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
