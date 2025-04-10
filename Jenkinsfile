@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/andreazemi94/Kubernetes-Training/Spring/demo'  // Repository del tuo microservizio Spring
+                git 'https://github.com/andreazemi94/Kubernetes-Training'  // Repository del tuo microservizio Spring
             }
         }
 
