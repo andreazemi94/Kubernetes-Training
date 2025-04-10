@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+            maven 'Maven 3.8.6'
+        }
+
     environment {
         SONAR_HOST_URL = 'https://my-spring-training.sonarqube:9000' // URL del tuo SonarQube
         SONAR_AUTH_TOKEN = credentials('sonar-token') // Token di autenticazione di SonarQube
@@ -14,19 +18,17 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                script {
-                    // Usa Maven per fare il build del microservizio Spring
-                    sh 'mvn clean install'
+                    steps {
+                        script {
+                            sh "${MVN_HOME}/bin/mvn clean install"
+                        }
+                    }
                 }
-            }
-        }
 
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Esegui l'analisi del codice con SonarQube
-                    sh "mvn sonar:sonar -Dsonar.projectKey=my-spring-app -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN"
+                    sh "${MVN_HOME}/bin/mvn sonar:sonar -Dsonar.projectKey=my-spring-app -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN}"
                 }
             }
         }
