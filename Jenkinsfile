@@ -14,7 +14,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                dir('Spring/demo') {
+                    sh 'mvn clean package'
+                }
             }
         }
     }
