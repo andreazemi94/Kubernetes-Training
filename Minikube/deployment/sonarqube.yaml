@@ -20,9 +20,9 @@ spec:
             - containerPort: 9095
           envFrom:
             - secretRef:
-                name: postgres-secret
+                name: sonarqube-secret
             - configMapRef:
-                name: postgres-config
+                name: sonarqube-config
           volumeMounts:
             - name: sonarqube-data
               mountPath: /opt/sonarqube/data
