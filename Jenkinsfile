@@ -20,7 +20,7 @@ pipeline {
         stage('Build') {
                     steps {
                         script {
-                            sh "${MVN_HOME}/bin/mvn clean install"
+                            sh "${tool 'Maven 3.8.6'}/bin/mvn clean install"
                         }
                     }
                 }
@@ -28,7 +28,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    sh "${MVN_HOME}/bin/mvn sonar:sonar -Dsonar.projectKey=my-spring-app -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN}"
+                    sh "${tool 'Maven 3.8.6'}/bin/mvn sonar:sonar -Dsonar.projectKey=my-spring-app -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN}"
                 }
             }
         }
