@@ -4,24 +4,24 @@ pipeline {
             label 'jenkins-agent' // etichetta del nodo per il pod
             defaultContainer 'kaniko' // Container predefinito da usare (il container con Kaniko)
             yaml """
-				apiVersion: v1
-				kind: Pod
-				metadata:
-				  name: jenkins-pod
-				spec:
-				  containers:
-				  - name: kaniko
-					image: gcr.io/kaniko-project/executor:latest
-					command: ['cat']
-					tty: true
-					volumeMounts:
-					- mountPath: /workspace
-					  name: kaniko-volume
-				  volumes:
-				  - name: kaniko-volume
-					persistentVolumeClaim:
-					  claimName: kaniko-pvc  # Devi avere un PVC configurato in Kubernetes per questo
-			"""
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:latest
+    command: ['cat']
+    tty: true
+    volumeMounts:
+    - mountPath: /workspace
+      name: kaniko-volume
+  volumes:
+  - name: kaniko-volume
+    persistentVolumeClaim:
+      claimName: kaniko-pvc  # Devi avere un PVC configurato in Kubernetes per questo
+"""
         }
     }
 
