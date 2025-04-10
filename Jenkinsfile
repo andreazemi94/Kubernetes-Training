@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven 3.8.6'
-    }
-
     environment {
         SONAR_HOST_URL = 'https://my-spring-training.sonarqube:9000'
         SONAR_AUTH_TOKEN = credentials('sonar-token')
@@ -18,11 +14,12 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage("Build") {
             steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn clean install"
-                }
+                git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
+                withMaven {
+                    sh "mvn clean package"
+                } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe reports and FindBugs reports
             }
         }
 
