@@ -5,6 +5,10 @@ pipeline {
         maven 'M3' // nome configurato in Jenkins: Manage Jenkins > Global Tool Configuration
     }
 
+    environment {
+        SONARQUBE_SCANNER_HOME = tool 'SonarQubeScanner' // Nome del tool configurato in Jenkins
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -16,6 +20,16 @@ pipeline {
             steps {
                 dir('Spring/demo') {
                     sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') { // Nome del server SonarQube configurato in Jenkins
+                    dir('Spring/demo') {
+                    sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=demo -Dsonar.sources=src -Dsonar.java.binaries=target/classes"
+                    }
                 }
             }
         }
