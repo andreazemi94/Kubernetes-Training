@@ -1,49 +1,30 @@
 pipeline {
-    agent any
+    agent any  // usa qualsiasi nodo disponibile
 
     tools {
-        maven 'Maven 3.8.6'
-    }
-
-    environment {
-        SONAR_HOST_URL = 'https://my-spring-training.sonarqube:9000'
-        SONAR_AUTH_TOKEN = credentials('sonar-token')
-        MVN_HOME = tool name: 'Maven', type: 'maven'
+        maven 'M3' // nome configurato in Jenkins: Manage Jenkins > Global Tool Configuration
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/andreazemi94/Kubernetes-Training'
+                checkout scm // prende il codice sorgente dal repository (Git)
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn clean install"
-                }
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn sonar:sonar -Dsonar.projectKey=my-spring-app -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN}"
-                }
+                sh 'mvn clean package'
             }
         }
     }
 
     post {
-        always {
-            script {
-                try {
-                    cleanWs()
-                } catch (e) {
-                    echo "cleanWs non disponibile. Plugin mancante?"
-                }
-            }
+        success {
+            echo 'Build completata con successo!'
+        }
+        failure {
+            echo 'Errore nella build.'
         }
     }
 }
