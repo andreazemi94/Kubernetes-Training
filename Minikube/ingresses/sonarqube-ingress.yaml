@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: graylog-ingress
+  name: sonarqube-ingress
   namespace: spring-training
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-    - host: my-spring-training.graylog
+    - host: my-spring-training.sonarqube
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: graylog-service
+                name: sonarqube-service
                 port:
                   number: 9000

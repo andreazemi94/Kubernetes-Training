@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarqube-config
+  namespace: spring-training
+data:
+  SONAR_JDBC_URL: jdbc:postgresql://postgres-service:5432/spring-training
