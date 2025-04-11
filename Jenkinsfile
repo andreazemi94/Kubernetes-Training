@@ -46,6 +46,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy on Minikube') {
+            steps {
+                sh 'kubectl apply -f Spring/demo/k8s/deployment.yaml'
+                sh 'kubectl apply -f Spring/demo/k8s/service.yaml'
+            }
+        }
     }
 
     post {
