@@ -9,7 +9,7 @@ pipeline {
         SONARQUBE_SCANNER_HOME = tool 'SonarQubeScanner' // Nome del tool configurato in Jenkins
         IMAGE_NAME = 'demo-app'
         IMAGE_TAG = 'latest'
-        REGISTRY = 'registry.kube-system.svc.cluster.local:5000'
+        REGISTRY = 'registry.kube-system.svc.cluster.local:80'
     }
 
     stages {
