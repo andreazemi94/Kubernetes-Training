@@ -7,6 +7,9 @@ pipeline {
 
     environment {
         SONARQUBE_SCANNER_HOME = tool 'SonarQubeScanner' // Nome del tool configurato in Jenkins
+        IMAGE_NAME = 'demo-app'
+        IMAGE_TAG = 'latest'
+        REGISTRY = 'registry.kube-system.svc.cluster.local:5000'
     }
 
     stages {
@@ -30,6 +33,16 @@ pipeline {
                     dir('Spring/demo') {
                     sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=demo -Dsonar.sources=src -Dsonar.java.binaries=target/classes"
                     }
+                }
+            }
+        }
+        stage('Docker Image Build with Jib') {
+            steps {
+                dir('Spring/demo') {
+                    sh """
+                    mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.1:build \
+                      -Dimage=${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                    """
                 }
             }
         }
